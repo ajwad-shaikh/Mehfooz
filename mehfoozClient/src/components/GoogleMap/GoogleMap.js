@@ -80,7 +80,7 @@ GoogleMap.propTypes = {
 export default withRouter(
   withStyles(styles)(
     GoogleApiWrapper({
-      apiKey: 'AIzaSyDyjPB_jkvc50-peNC0K4rEv6-xPB1gRqg',
+      apiKey: process.env.REACT_APP_MAP_KEY,
     })(
       geolocated({
         positionOptions: {
