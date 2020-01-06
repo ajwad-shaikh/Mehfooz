@@ -1,7 +1,7 @@
 {
   "name": "mehfooz-client",
   "version": "0.1.0",
-  "description": "A responsive web app to lodge distress reports to the mehfoozNetwork",
+  "description": "A responsive web app to lodge distress reports to the MehfoozNetwork",
   "homepage": "https://mehfooz-client.web.app",
   "bugs": {
     "url": "https://github.com/ajwad-shaikh/MehfoozNetwork/issues",
@@ -21,7 +21,7 @@
     "deploy": "gh-pages -d build"
   },
   "config": {
-    "title": "mehfoozClient",
+    "title": "MehfoozClient",
     "theme": {
       "primaryColor": "blue",
       "secondaryColor": "red",
@@ -38,6 +38,9 @@
       "appId": "1:894788266816:web:4ba9e76949bb2b709868a5",
       "measurementId": "G-L16SMPWPGN"
     },
+    "maps": {
+      "key": "AIzaSyDyjPB_jkvc50-peNC0K4rEv6-xPB1gRqg"
+    },
     "sentry": {
       "dsn": "https://78536326e6524916b6f44b4ea510b7a4@sentry.io/1846624"
     }
@@ -48,11 +51,14 @@
     "@material-ui/styles": "^4.8.2",
     "@sentry/browser": "^5.10.2",
     "firebase": "^7.6.1",
+    "google-map-react": "^1.1.5",
+    "google-maps-react": "^2.0.2",
     "lodash.camelcase": "^4.3.0",
     "mdi-material-ui": "^6.10.0",
     "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-geolocated": "^3.0.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "react-swipeable-views": "^0.13.1",
