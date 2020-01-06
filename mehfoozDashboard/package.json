@@ -1,0 +1,88 @@
+{
+  "name": "mehfooz-dashboard",
+  "version": "0.1.0",
+  "description": "A responsive web app to view and manage the MehfoozNetwork",
+  "homepage": "https://mehfooz-dashboard.web.app",
+  "bugs": {
+    "url": "https://github.com/ajwad-shaikh/MehfoozNetwork/issues",
+    "email": "shaikhajwad10@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ajwad-shaikh/MehfoozNetwork.git"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build"
+  },
+  "config": {
+    "title": "MehfoozDashboard",
+    "theme": {
+      "primaryColor": "blue",
+      "secondaryColor": "red",
+      "type": "light",
+      "dense": false
+    },
+    "firebase": {
+      "apiKey": "AIzaSyDb5Fx8qMv3vLbRROM4yp3WLH8HGsaE7uw",
+      "authDomain": "mehfooz-9a723.firebaseapp.com",
+      "databaseUrl": "https://mehfooz-9a723.firebaseio.com",
+      "projectId": "mehfooz-9a723",
+      "storageBucket": "mehfooz-9a723.appspot.com",
+      "messagingSenderId": "894788266816",
+      "appId": "1:894788266816:web:4ba9e76949bb2b709868a5",
+      "measurementId": "G-L16SMPWPGN"
+    },
+    "maps": {
+      "key": "AIzaSyDyjPB_jkvc50-peNC0K4rEv6-xPB1gRqg"
+    },
+    "sentry": {
+      "dsn": "https://78536326e6524916b6f44b4ea510b7a4@sentry.io/1846624"
+    }
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.8.2",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/styles": "^4.8.2",
+    "@sentry/browser": "^5.10.2",
+    "firebase": "^7.6.1",
+    "google-map-react": "^1.1.5",
+    "google-maps-react": "^2.0.2",
+    "lodash.camelcase": "^4.3.0",
+    "mdi-material-ui": "^6.10.0",
+    "moment": "^2.24.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-geolocated": "^3.0.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.3.0",
+    "react-swipeable-views": "^0.13.1",
+    "reading-time": "^1.1.3",
+    "typeface-roboto": "^0.0.75",
+    "validate.js": "^0.13.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.1.1"
+  },
+  "private": true,
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
