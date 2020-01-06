@@ -8,6 +8,6 @@
   },
   "hosting": {
     "site": "mehfooz-client",
-    "public": "public"
+    "public": "build"
   }
 }
