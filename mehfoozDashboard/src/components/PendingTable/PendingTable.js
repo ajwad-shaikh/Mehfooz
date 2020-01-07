@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { auth, firestore } from '../../firebase';
+import { firestore } from '../../firebase';
 import { withStyles } from '@material-ui/core/styles';
-import authentication from '../../services/authentication';
-import { geolocated } from 'react-geolocated';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -113,7 +111,7 @@ class PendingTable extends Component {
     const { classes } = this.props;
 
     // Properties
-    const { user, markerList } = this.props;
+    // const { user, markerList } = this.props;
 
     const { pendingList, performingAction } = this.state;
 

@@ -145,13 +145,36 @@ class HomeContent extends Component {
         snapshot.forEach(doc => {
           let marker = doc.data();
           marker.id = doc.id;
+          marker.type = 'pending';
           list.push(marker);
         });
-        this.setState({
-          markerList: list,
-        });
+        firestore
+          .collection('assigned')
+          .get()
+          .then(snapshot => {
+            snapshot.forEach(doc => {
+              let marker = doc.data();
+              marker.id = doc.id;
+              marker.type = 'assigned';
+              list.push(marker);
+            });
+            firestore
+              .collection('completed')
+              .get()
+              .then(snapshot => {
+                snapshot.forEach(doc => {
+                  let marker = doc.data();
+                  marker.id = doc.id;
+                  marker.type = 'completed';
+                  list.push(marker);
+                });
+                this.setState({
+                  markerList: list,
+                });
+                console.log(list);
+              });
+          });
       });
-    console.log(list);
   }
 
   mapClicked = (mapProps, map, clickEvent) => {
@@ -168,9 +191,9 @@ class HomeContent extends Component {
     const { classes } = this.props;
 
     // Properties
-    const { user, openSnackbar } = this.props;
+    const { /*user,*/ openSnackbar } = this.props;
 
-    const { performingAction, markerList, tabValue } = this.state;
+    const { markerList, tabValue } = this.state;
 
     function a11yProps(index) {
       return {

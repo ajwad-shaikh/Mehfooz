@@ -26,7 +26,7 @@ class GoogleMap extends Component {
         lat: 23.0168,
         lng: 80.9558,
       },
-      zoom: 6,
+      zoom: 14,
       markerPosition: {
         lat: 23.0168,
         lng: 80.9558,
@@ -48,7 +48,7 @@ class GoogleMap extends Component {
 
   render() {
     // Styling
-    const { classes } = this.props;
+    // const { classes } = this.props;
 
     // Properties
     const { mapClicked, markerList } = this.props;
@@ -70,7 +70,6 @@ class GoogleMap extends Component {
         centerAroundCurrentLocation
       >
         {markerList.map(marker => {
-          //console.log(marker);
           return (
             <Marker
               key={marker.id}

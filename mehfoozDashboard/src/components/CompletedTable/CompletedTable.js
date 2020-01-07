@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { auth, firestore } from '../../firebase';
+import { firestore } from '../../firebase';
 import { withStyles } from '@material-ui/core/styles';
-import authentication from '../../services/authentication';
-import { geolocated } from 'react-geolocated';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,7 +10,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Button } from '@material-ui/core';
 
 const styles = theme => ({
   buttonIcon: {
@@ -78,9 +75,9 @@ class CompletedTable extends Component {
     const { classes } = this.props;
 
     // Properties
-    const { user, markerList } = this.props;
+    // const { user, markerList } = this.props;
 
-    const { completedList, performingAction } = this.state;
+    const { completedList } = this.state;
 
     return (
       <TableContainer component={Paper}>
