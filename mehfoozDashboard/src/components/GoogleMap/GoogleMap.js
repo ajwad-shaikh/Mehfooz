@@ -57,7 +57,7 @@ class GoogleMap extends Component {
 
     const mapStyles = {
       marginTop: '20px',
-      width: '40%',
+      width: '100%',
       height: '50%',
     };
 
@@ -88,7 +88,7 @@ class GoogleMap extends Component {
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
         >
-          <Typography>{this.state.selectedPlace.name + this}</Typography>
+          <Typography>{this.state.selectedPlace.name}</Typography>
         </InfoWindow>
       </Map>
     );

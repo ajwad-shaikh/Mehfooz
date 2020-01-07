@@ -6,26 +6,20 @@ import { withStyles } from '@material-ui/core/styles';
 import authentication from '../../services/authentication';
 import { geolocated } from 'react-geolocated';
 import GoogleMap from '../GoogleMap';
-import {
-  Typography,
-  Grid,
-  TextField,
-  Button,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from '@material-ui/core';
+import { Typography, Grid, Tabs, Tab, Box } from '@material-ui/core';
+import PendingTable from '../PendingTable/PendingTable';
 
 const styles = theme => ({
   buttonIcon: {
     marginRight: theme.spacing(1),
   },
   formGrid: {
+    height: '55vh',
+    marginLeft: '0px',
+    marginRight: '0px',
+  },
+  header: {
     marginTop: '20px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -35,7 +29,37 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing(0),
   },
+  tabHeader: {
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </Typography>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
 
 class HomeContent extends Component {
   constructor(props) {
@@ -43,88 +67,16 @@ class HomeContent extends Component {
 
     this.state = {
       performingAction: false,
-      center: {
-        lat: 23.0168,
-        lng: 80.9558,
-      },
-      zoom: 6,
-      markerPosition: {
-        lat: 23.0168,
-        lng: 80.9558,
-      },
-      form: {
-        name: '',
-        contactNumber: '',
-        type: '',
-      },
+
+      tabValue: 0,
       markerList: [],
     };
   }
 
-  handleNameChange = event => {
-    const name = event.target.value;
-    var form = this.state.form;
-    form.name = name;
+  handleTabValueChange = (e, nV) => {
     this.setState({
-      form: form,
+      tabValue: nV,
     });
-  };
-
-  handleContactNumberChange = event => {
-    const contact = event.target.value;
-    var form = this.state.form;
-    form.contactNumber = contact;
-    this.setState({
-      form: form,
-    });
-  };
-
-  handleTypeChange = event => {
-    const type = event.target.value;
-    var form = this.state.form;
-    form.type = type;
-    this.setState({
-      form: form,
-    });
-  };
-
-  handleLatChange = event => {
-    const latitude = event.target.value;
-    var newPosition = this.state.markerPosition;
-    newPosition.lat = parseFloat(latitude);
-    this.setState({
-      markerPosition: newPosition,
-    });
-  };
-
-  handleLngChange = event => {
-    const longitude = event.target.value;
-    var newPosition = this.state.markerPosition;
-    newPosition.lng = parseFloat(longitude);
-    this.setState({
-      markerPosition: newPosition,
-    });
-  };
-
-  sendDistress = () => {
-    this.setState({
-      performingAction: true,
-    });
-    firestore
-      .collection('pending')
-      .add({
-        user: this.state.form,
-        location: this.state.markerPosition,
-      })
-      .then(res => {
-        this.props.openSnackbar(
-          "Distress Lodged Successfully! Hang in there, we're on our way!",
-          3,
-        );
-        this.setState({
-          performingAction: false,
-        });
-      });
   };
 
   signInWithEmailLink = () => {
@@ -193,27 +145,11 @@ class HomeContent extends Component {
           marker.id = doc.id;
           list.push(marker);
         });
+        this.setState({
+          markerList: list,
+        });
       });
     console.log(list);
-    this.setState({
-      markerList: list,
-    });
-  }
-
-  setCenter() {
-    if (
-      this.props.isGeolocationAvailable &&
-      this.props.isGeolocationEnabled &&
-      this.props.coords
-    ) {
-      this.setState({
-        center: {
-          lat: this.props.coords.latitude,
-          lng: this.props.coords.longitude,
-        },
-      });
-      console.log(this.state);
-    }
   }
 
   mapClicked = (mapProps, map, clickEvent) => {
@@ -230,132 +166,52 @@ class HomeContent extends Component {
     const { classes } = this.props;
 
     // Properties
-    // const { user } = this.props;
+    const { user, openSnackbar } = this.props;
 
-    const { performingAction, markerList, markerPosition, form } = this.state;
+    const { performingAction, markerList, tabValue } = this.state;
+
+    function a11yProps(index) {
+      return {
+        id: `full-width-tab-${index}`,
+        'aria-controls': `full-width-tabpanel-${index}`,
+      };
+    }
 
     return (
-      <Grid container direction="row">
-        <Grid item md={6} xs={6} lg={6}>
-          <Grid
-            container
-            spacing={2}
-            direction="column"
-            className={classes.formGrid}
-          >
-            <Grid item>
-              <Typography variant="h3" color="secondary">
-                Stay Mehfooz :)
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="h5" align="center">
-                Complete the form below to register your distress on the
-                MehfoozNetwork.
-              </Typography>
-            </Grid>
-            <Grid item>
-              <TextField
-                autoComplete="name"
-                disabled={performingAction}
-                label="Name"
-                placeholder="John Doe"
-                required
-                type="text"
-                value={form.name}
-                variant="outlined"
-                onChange={this.handleNameChange}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                autoComplete="contactNumber"
-                disabled={performingAction}
-                label="Contact Number"
-                placeholder="9876543210"
-                required
-                type="number"
-                value={form.contactNumber}
-                variant="outlined"
-                onChange={this.handleContactNumberChange}
-              />
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={3}>
-                <Grid item>
-                  <TextField
-                    autoComplete="Latitude"
-                    disabled={performingAction}
-                    label="Latitude"
-                    placeholder="23.1025"
-                    required
-                    type="number"
-                    value={markerPosition.lat}
-                    variant="outlined"
-                    onChange={this.handleLatChange}
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    autoComplete="Longitude"
-                    disabled={performingAction}
-                    label="Longitude"
-                    placeholder="80.01225"
-                    required
-                    type="number"
-                    value={markerPosition.lng}
-                    variant="outlined"
-                    onChange={this.handleLngChange}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Distress Type</FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="type"
-                  name="type"
-                  value={form.type}
-                  disabled={performingAction}
-                  onChange={this.handleTypeChange}
-                >
-                  <FormControlLabel
-                    value="health"
-                    control={<Radio />}
-                    label="Health"
-                  />
-                  <FormControlLabel
-                    value="law_order"
-                    control={<Radio />}
-                    label="Law & Order"
-                  />
-                  <FormControlLabel
-                    value="disaster"
-                    control={<Radio />}
-                    label="Disaster"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid item>
-              <Button
-                color="primary"
-                variant="contained"
-                disabled={performingAction}
-                onClick={this.sendDistress}
-              >
-                Get Help
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item md={6} xs={6} lg={6} className={classes.mapGrid}>
-          <GoogleMap mapClicked={this.mapClicked} markerList={markerList} />
-          <Typography>
-            Click on the map to set an accurate response location
+      <Grid container direction="column">
+        <Grid item className={classes.header}>
+          <Typography variant="h4" align="center">
+            Distress Map | The MehfoozNetwork
           </Typography>
+        </Grid>
+        <Grid item className={classes.formGrid}>
+          <GoogleMap mapClicked={this.mapClicked} markerList={markerList} />
+        </Grid>
+        <Grid item className={classes.tabHeader}>
+          <Tabs
+            centered
+            value={tabValue}
+            onChange={this.handleTabValueChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
+          >
+            <Tab label="Pending Distress Response" {...a11yProps(0)} />
+            <Tab label="Ongoing Distress Response" {...a11yProps(1)} />
+            <Tab label="Completed Distress Response" {...a11yProps(2)} />
+          </Tabs>
+        </Grid>
+        <Grid item>
+          <TabPanel value={tabValue} index={0}>
+            <PendingTable openSnackbar={openSnackbar} />
+          </TabPanel>
+          <TabPanel value={tabValue} index={1}>
+            Ongoing Distress Response
+          </TabPanel>
+          <TabPanel value={tabValue} index={2}>
+            Completed Distress Response
+          </TabPanel>
         </Grid>
       </Grid>
     );

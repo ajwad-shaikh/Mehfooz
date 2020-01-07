@@ -114,6 +114,7 @@ class HomeContent extends Component {
       .add({
         user: this.state.form,
         location: this.state.markerPosition,
+        timestamp: new Date(),
       })
       .then(res => {
         this.props.openSnackbar(
