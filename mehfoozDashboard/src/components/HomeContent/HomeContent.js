@@ -8,6 +8,8 @@ import { geolocated } from 'react-geolocated';
 import GoogleMap from '../GoogleMap';
 import { Typography, Grid, Tabs, Tab, Box } from '@material-ui/core';
 import PendingTable from '../PendingTable/PendingTable';
+import AssignedTable from '../AssignedTable/AssignedTable';
+import CompletedTable from '../CompletedTable';
 
 const styles = theme => ({
   buttonIcon: {
@@ -198,7 +200,7 @@ class HomeContent extends Component {
             aria-label="full width tabs example"
           >
             <Tab label="Pending Distress Response" {...a11yProps(0)} />
-            <Tab label="Ongoing Distress Response" {...a11yProps(1)} />
+            <Tab label="Assigned Distress Response" {...a11yProps(1)} />
             <Tab label="Completed Distress Response" {...a11yProps(2)} />
           </Tabs>
         </Grid>
@@ -207,10 +209,10 @@ class HomeContent extends Component {
             <PendingTable openSnackbar={openSnackbar} />
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
-            Ongoing Distress Response
+            <AssignedTable openSnackbar={openSnackbar} />
           </TabPanel>
           <TabPanel value={tabValue} index={2}>
-            Completed Distress Response
+            <CompletedTable openSnackbar={openSnackbar} />
           </TabPanel>
         </Grid>
       </Grid>

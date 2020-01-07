@@ -44,7 +44,7 @@ const styles = theme => ({
   performingAction: false,
 });
 
-class PendingTable extends Component {
+class CompletedTable extends Component {
   constructor(props) {
     super(props);
 
@@ -52,14 +52,14 @@ class PendingTable extends Component {
       performingAction: false,
 
       tabValue: 0,
-      pendingList: [],
+      completedList: [],
     };
   }
 
-  fetchPendingDistress() {
+  fetchCompletedDistress() {
     var list = [];
     firestore
-      .collection('pending')
+      .collection('completed')
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
@@ -68,43 +68,8 @@ class PendingTable extends Component {
           list.push(distress);
         });
         this.setState({
-          pendingList: list,
+          completedList: list,
         });
-      });
-  }
-
-  handleMarkAssigned(id) {
-    console.log(id);
-    this.setState({
-      performingAction: true,
-    });
-    var moveDoc = '';
-    const here = this;
-    firestore
-      .collection('pending')
-      .doc(id)
-      .get()
-      .then(doc => {
-        moveDoc = doc.data();
-        firestore
-          .collection('assigned')
-          .doc(id)
-          .set(moveDoc)
-          .then(() => {
-            firestore
-              .collection('pending')
-              .doc(id)
-              .delete()
-              .then(() => {
-                here.setState({
-                  performingAction: false,
-                });
-                here.props.openSnackbar(
-                  'Distress Marked as Assigned Successfully!',
-                );
-                window.location.reload();
-              });
-          });
       });
   }
 
@@ -115,7 +80,7 @@ class PendingTable extends Component {
     // Properties
     const { user, markerList } = this.props;
 
-    const { pendingList, performingAction } = this.state;
+    const { completedList, performingAction } = this.state;
 
     return (
       <TableContainer component={Paper}>
@@ -127,11 +92,10 @@ class PendingTable extends Component {
               <TableCell align="center">Location</TableCell>
               <TableCell align="center">Contact Number</TableCell>
               <TableCell align="center">Distress Type</TableCell>
-              <TableCell align="center">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {pendingList.map(row => {
+            {completedList.map(row => {
               return (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
@@ -145,16 +109,6 @@ class PendingTable extends Component {
                   </TableCell>
                   <TableCell align="center">{row.user.contactNumber}</TableCell>
                   <TableCell align="center">{row.user.type}</TableCell>
-                  <TableCell align="center">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      disabled={performingAction}
-                      onClick={() => this.handleMarkAssigned(row.id)}
-                    >
-                      Mark Assigned
-                    </Button>
-                  </TableCell>
                 </TableRow>
               );
             })}
@@ -165,11 +119,11 @@ class PendingTable extends Component {
   }
 
   componentDidMount() {
-    this.fetchPendingDistress();
+    this.fetchCompletedDistress();
   }
 }
 
-PendingTable.propTypes = {
+CompletedTable.propTypes = {
   // Styling
   classes: PropTypes.object.isRequired,
 
@@ -177,4 +131,4 @@ PendingTable.propTypes = {
   user: PropTypes.object,
 };
 
-export default withRouter(withStyles(styles)(PendingTable));
+export default withRouter(withStyles(styles)(CompletedTable));
