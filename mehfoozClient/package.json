@@ -4,13 +4,13 @@
   "description": "A responsive web app to lodge distress reports to the MehfoozNetwork",
   "homepage": "https://mehfooz-client.web.app",
   "bugs": {
-    "url": "https://github.com/ajwad-shaikh/MehfoozNetwork/issues",
+    "url": "https://github.com/ajwad-shaikh/Mehfooz/issues",
     "email": "shaikhajwad10@gmail.com"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ajwad-shaikh/MehfoozNetwork.git"
+    "url": "https://github.com/ajwad-shaikh/Mehfooz.git"
   },
   "scripts": {
     "start": "react-scripts start",

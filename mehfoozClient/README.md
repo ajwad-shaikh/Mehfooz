@@ -29,7 +29,7 @@ The `<directory>` option is the name of a new directory to clone into, replace i
 The “humanish” part of the source repository is used if no directory is explicitly given (`repo` for `/path/to/repo.git` and `foo` for `host.xz:foo/.git`).
 
 ```
-git clone https://github.com/ajwad-shaikh/MehfoozNetwork.git <directory>
+git clone https://github.com/ajwad-shaikh/Mehfooz.git <directory>
 ```
 
 ### Install the dependencies
@@ -141,4 +141,4 @@ Portions of this page are modifications based on work created and [shared by Goo
 
 ## License
 
-mehfoozClient is open-source software [licensed as MIT](https://github.com/ajwad-shaikh/mehfoozNetwork/blob/master/LICENSE.md).
+mehfoozClient is open-source software [licensed as MIT](https://github.com/ajwad-shaikh/Mehfooz/blob/master/LICENSE.md).
