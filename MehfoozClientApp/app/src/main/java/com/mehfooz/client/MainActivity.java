@@ -18,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;;
+    private GoogleMap mMap;
     private FirebaseFirestore firebaseFirestore;
 
     @Override
