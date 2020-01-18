@@ -31,7 +31,9 @@ public class UserObject {
     }
 
     public boolean isComplete() {
-        return !this.phoneNumber.isEmpty() && !this.name.isEmpty();
+        if( phoneNumber != null && name != null)
+            return !phoneNumber.isEmpty() && !name.isEmpty();
+        else return false;
     }
 
 

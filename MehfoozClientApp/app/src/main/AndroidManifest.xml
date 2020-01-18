@@ -20,7 +20,8 @@
 			android:name=".UserInfo"
 			android:label="@string/title_activity_user_info"
 			android:parentActivityName=".MainActivity"
-			android:theme="@style/AppTheme.NoActionBar">
+			android:theme="@style/AppTheme.NoActionBar"
+			android:windowSoftInputMode="adjustResize">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.mehfooz.client.MainActivity" />

@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void updateUI() {
-        if(firebaseUser!=null) {
+        if(firebaseUser!=null && !userObject.isComplete()) {
             userObject.setName(firebaseUser.getDisplayName());
             userObject.setPhoneNumber(firebaseUser.getPhoneNumber());
             Snackbar.make(findViewById(R.id.main_layout), "Welcome " +  userObject.getName() + "!", Snackbar.LENGTH_LONG)
@@ -283,7 +283,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-
     private void sendDistress(String tag) {
         if(userObject.isComplete()){
             Log.d(TAG, userObject.toString());
@@ -291,6 +290,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         else {
             Intent completeUserIntent = new Intent(MainActivity.this, UserInfo.class);
             completeUserIntent.putExtra("tag", tag);
+            completeUserIntent.putExtra("name", userObject.getName());
+            completeUserIntent.putExtra("number", userObject.getPhoneNumber());
             startActivityForResult(completeUserIntent, RC_COMPLETE_USER);
         }
     }
