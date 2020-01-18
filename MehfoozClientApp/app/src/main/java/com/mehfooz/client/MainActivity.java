@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +41,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String TAG = "MainActivity";
     private static final int RC_LOCATION = 101;
     private static final int RC_SIGN_IN = 9001;
+    private static final int RC_COMPLETE_USER = 900;
 
     private GoogleMap mMap;
     private FirebaseFirestore firebaseFirestore;
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleSignInClient signInClient;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private UserObject userObject;
+    private ArrayList<Button> buttonsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +83,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .requestEmail()
                 .build();
         firebaseAuth = FirebaseAuth.getInstance();
-
         signInClient = GoogleSignIn.getClient(this, gso);
+
+        userObject = new UserObject();
+
+        buttonsList.add((Button)findViewById(R.id.disaster));
+        buttonsList.add((Button)findViewById(R.id.health));
+        buttonsList.add((Button)findViewById(R.id.law_order));
+        for(Button button : buttonsList){
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendDistress(v.getTag().toString());
+                }
+            });
+        }
 
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -110,9 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onCameraIdle() {
                 centerMarker.setVisibility(View.GONE);
                 mMap.addMarker(new MarkerOptions()
-                        .position(mMap.getCameraPosition().target)
-                        .icon(BitmapDescriptorFactory
-                                .fromResource(R.drawable.marker)));
+                        .position(mMap.getCameraPosition().target));
             }
         });
 
@@ -136,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             LatLng latLng =
                                     new LatLng(location.getLatitude(), location.getLongitude());
                             CameraUpdate cameraUpdate =
-                                    CameraUpdateFactory.newLatLngZoom(latLng, 10);
+                                    CameraUpdateFactory.newLatLngZoom(latLng, 15);
                             mMap.animateCamera(cameraUpdate);
                         }
                     }
@@ -213,6 +229,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // ...
             }
         }
+        else if (requestCode == RC_COMPLETE_USER) {
+            if (resultCode == RESULT_OK) {
+                userObject.setName(data.getStringExtra("name"));
+                userObject.setPhoneNumber(data.getStringExtra("number"));
+                sendDistress(data.getStringExtra("tag"));
+            }
+        }
     }
 
     private void firebaseAuthWithGoogle( GoogleSignInAccount account) {
@@ -252,11 +275,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void updateUI() {
         if(firebaseUser!=null) {
-            Snackbar.make(findViewById(R.id.main_layout), "Welcome " +  firebaseUser.getDisplayName() + "!", Snackbar.LENGTH_LONG)
+            userObject.setName(firebaseUser.getDisplayName());
+            userObject.setPhoneNumber(firebaseUser.getPhoneNumber());
+            Snackbar.make(findViewById(R.id.main_layout), "Welcome " +  userObject.getName() + "!", Snackbar.LENGTH_LONG)
                     .show();
-            Log.d(TAG, firebaseUser.getDisplayName());
+            Log.d(TAG, userObject.getName());
         }
     }
 
+
+    private void sendDistress(String tag) {
+        if(userObject.isComplete()){
+            Log.d(TAG, userObject.toString());
+        }
+        else {
+            Intent completeUserIntent = new Intent(MainActivity.this, UserInfo.class);
+            completeUserIntent.putExtra("tag", tag);
+            startActivityForResult(completeUserIntent, RC_COMPLETE_USER);
+        }
+    }
 
 }
