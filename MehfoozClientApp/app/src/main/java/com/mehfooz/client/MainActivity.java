@@ -196,7 +196,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 signIn();
                 return true;
             case R.id.action_edit:
-                // TODO: edit preferences
+                Intent completeUserIntent = new Intent(MainActivity.this, UserInfo.class);
+                completeUserIntent.putExtra("tag", "");
+                completeUserIntent.putExtra("name", userObject.getName());
+                completeUserIntent.putExtra("number", userObject.getPhoneNumber());
+                startActivityForResult(completeUserIntent, RC_COMPLETE_USER);
                 return true;
             case R.id.action_about:
                 // TODO: about
@@ -233,7 +237,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (resultCode == RESULT_OK) {
                 userObject.setName(data.getStringExtra("name"));
                 userObject.setPhoneNumber(data.getStringExtra("number"));
-                sendDistress(data.getStringExtra("tag"));
+                String tag = data.getStringExtra("tag");
+                if(!tag.isEmpty()) sendDistress(data.getStringExtra(tag));
+                Snackbar.make(findViewById(R.id.main_layout),
+                        "Details updated!", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
