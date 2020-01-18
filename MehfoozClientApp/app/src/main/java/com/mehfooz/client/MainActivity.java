@@ -39,9 +39,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -238,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 userObject.setName(data.getStringExtra("name"));
                 userObject.setPhoneNumber(data.getStringExtra("number"));
                 String tag = data.getStringExtra("tag");
-                if(!tag.isEmpty()) sendDistress(data.getStringExtra(tag));
+                if(!tag.isEmpty()) sendDistress(tag);
                 Snackbar.make(findViewById(R.id.main_layout),
                         "Details updated!", Snackbar.LENGTH_SHORT).show();
             }
@@ -292,7 +296,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void sendDistress(String tag) {
         if(userObject.isComplete()){
-            Log.d(TAG, userObject.toString());
+            Map<String, Object> locData = new HashMap<>();
+            locData.put("lat", mMap.getCameraPosition().target.latitude);
+            locData.put("lng", mMap.getCameraPosition().target.longitude);
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("name", userObject.getName());
+            userData.put("contactNumber", userObject.getPhoneNumber());
+            userData.put("type", tag);
+            Map<String, Object> docData = new HashMap<>();
+            docData.put("location",locData );
+            docData.put("timestamp", new Date());
+            docData.put("user", userData);
+            firebaseFirestore.collection("pending")
+                    .add(docData)
+                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentReference> task) {
+                    if(task.isSuccessful()){
+                        Snackbar.make(findViewById(R.id.main_layout),
+                                R.string.success_post, Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            });
         }
         else {
             Intent completeUserIntent = new Intent(MainActivity.this, UserInfo.class);
