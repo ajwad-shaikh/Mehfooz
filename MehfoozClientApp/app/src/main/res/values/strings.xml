@@ -2,5 +2,5 @@
 	<string name="app_name">Mehfooz</string>
 	<string name="title_activity_splash_screen">SplashScreen</string>
 	<string name="title_activity_main">MainActivity</string>
-	<string name="title_activity_maps">Map</string>
+	<string name="location_rationale">Kindly enable location permissions for Mehfooz to reach you faster and keep you safe.</string>
 </resources>
