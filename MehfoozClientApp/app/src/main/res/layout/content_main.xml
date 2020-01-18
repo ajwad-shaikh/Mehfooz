@@ -12,14 +12,63 @@
 		android:id="@+id/map"
 		android:name="com.google.android.gms.maps.SupportMapFragment"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_centerInParent="true" />
+		android:layout_height="match_parent" />
 
 	<ImageView
 		android:id="@+id/mapMarker"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_centerInParent="true"
-		android:src="@android:drawable/ic_menu_mylocation"/>
+		android:src="@android:drawable/ic_menu_mylocation" />
+
+	<androidx.cardview.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_marginBottom="25dp"
+		android:layout_marginStart="20dp"
+		android:layout_marginEnd="90dp"
+		android:padding="10dp"
+		app:cardCornerRadius="10dp">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:padding="10dp">
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="Send Distress Signal!"
+				android:textColor="@color/colorAccent"
+				android:textSize="25sp" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<Button
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Health"/>
+
+				<Button
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Law &amp; Order"/>
+
+				<Button
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Fire"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+
+
+	</androidx.cardview.widget.CardView>
 
 </RelativeLayout>
