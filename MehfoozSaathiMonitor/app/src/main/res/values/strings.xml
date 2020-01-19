@@ -1,3 +1,7 @@
 <resources>
-	<string name="app_name">MehfoozSaathiMonitor</string>
+	<string name="app_name">Mehfooz SaathiMonitor</string>
+	<string name="title_activity_dashboard">Dashboard</string>
+	<string name="firebase_email" translatable="false">saathi.monitor@mehfooz.com</string>
+	<string name="firebase_password" translatable="false">MehfoozSaathi</string>
+	<string name="title_activity_splash_screen">SplashScreenActivity</string>
 </resources>
